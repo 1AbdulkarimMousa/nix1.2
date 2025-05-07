@@ -1,0 +1,89 @@
+Directory Tree: ./
+================================================================================
+
+├── config
+│   ├── base.nix
+
+////////////////////////////////////////////////////////////////////////////////
+{ config, lib, pkgs, ... }:
+
+{
+  # Create the odoo group
+  users.groups.odoo = {};
+  
+  # Set up SSH
+  services.openssh = {
+    enable = true;
+    settings = {
+      PasswordAuthentication = false;
+      PermitRootLogin = "no";
+    };
+  };
+  
+  # Basic firewall
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 22 80 443 ];
+  };
+}
+////////////////////////////////////////////////////////////////////////////////
+
+│   └── services.nix
+
+////////////////////////////////////////////////////////////////////////////////
+{ config, pkgs, ... }:
+
+{
+  services = {
+    # PostgreSQL 17
+    postgresql = {
+      enable = true;
+      package = pkgs.postgresql_17;
+    };
+    
+    # Latest nginx
+    nginx = {
+      enable = true;
+      package = pkgs.nginxMainline; # Uses latest mainline nginx version
+    };
+  };
+}
+////////////////////////////////////////////////////////////////////////////////
+
+├── configuration.nix
+
+////////////////////////////////////////////////////////////////////////////////
+{ config, pkgs, ... }:
+
+{
+  imports = [
+    ./hardware-configuration.nix
+    ./modules/base.nix
+    ./services.nix
+  ];
+  
+  # System settings
+  time.timeZone = "UTC";
+  i18n.defaultLocale = "en_US.UTF-8";
+  
+  # Base packages
+  environment.systemPackages = with pkgs; [
+    vim git curl wget htop zstd jq
+  ];
+  
+  system.stateVersion = "23.11";
+}
+////////////////////////////////////////////////////////////////////////////////
+
+├── modules
+└── odoo
+    ├── repos
+    │   ├── CE15
+    │   ├── CE16
+    │   ├── CE17
+    │   └── CE18
+    └── venvs
+        ├── CE15
+        ├── CE16
+        ├── CE17
+        └── CE18
