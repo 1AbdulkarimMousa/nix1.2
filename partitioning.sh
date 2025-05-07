@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-# Device and partition configurations from disko.nix
+# Device and partition configurations
 DEVICE="/dev/sdb"
 ESP_SIZE="256M"
 ESP_TYPE="EF00"
@@ -42,8 +42,8 @@ echo "Setting up swap..."
 mkswap "${DEVICE}2"
 swapon "${DEVICE}2"
 
-echo "Formatting root partition with btrfs..."
-mkfs.btrfs "${DEVICE}3"
+echo "Formatting root partition with ext4 for PostgreSQL..."
+mkfs.ext4 "${DEVICE}3"
 
 # Create mount points
 echo "Creating mount points..."
