@@ -3,9 +3,8 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./modules/base.nix
+    ./config/base.nix
     ./services.nix
-    ./modules/odoo/odoo.nix
   ];
   
   # System settings
@@ -16,7 +15,7 @@
   # Bootloader configuration
   boot.loader.grub = {
     enable = true;
-    devices = [ "/dev/sdb" ];
+    devices = [ "/dev/vda" ];
     efiSupport = true;
     useOSProber = true;
   };
