@@ -18,7 +18,7 @@
             };
 
             swap = {
-              size = "8G";
+              size = "1G";
               content = {
                 type = "swap";
                 resumeDevice = true;
@@ -29,7 +29,7 @@
               size = "100%";
               content = {
                 type = "filesystem";
-                format = "ext4";
+                format = "btrfs";
                 mountpoint = "/";
               };
             };
