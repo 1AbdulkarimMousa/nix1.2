@@ -46,13 +46,13 @@ echo "Formatting root partition with btrfs..."
 mkfs.btrfs "${DEVICE}3"
 
 # Create mount points
-mkdir -p $MOUNT_ROOT $MOUNT_BOOT
+echo "Creating mount points..."
+mkdir -p $MOUNT_ROOT
+mount "${DEVICE}3" $MOUNT_ROOT
+mkdir -p $MOUNT_BOOT
 
 # Mount partitions
-echo "Mounting root partition..."
-mount "${DEVICE}3" $MOUNT_ROOT
-
-echo "Mounting boot partition..."
+echo "Mounting partitions..."
 mount "${DEVICE}1" $MOUNT_BOOT
 
 echo "Partitioning complete!"
